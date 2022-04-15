@@ -41,5 +41,31 @@ public class CommentController {
         return "comment";
     }
 
+    @PostMapping("/comment")
+    public String createComment(@RequestParam(name = "plusComment", required = false) String plusComment,
+                                @RequestParam(name = "deltaComment", required = false) String deltaComment,
+                                @RequestParam(name = "starComment", required = false) String starComment) {
+        List<Comment> comments = new ArrayList<>();
+
+        if (StringUtils.isNotEmpty(plusComment)) {
+            comments.add(getComment(plusComment, CommentType.PLUS));
+        }
+
+        if (StringUtils.isNotEmpty(deltaComment)) {
+            comments.add(getComment(deltaComment, CommentType.DELTA));
+        }
+
+        if (StringUtils.isNotEmpty(starComment)) {
+            comments.add(getComment(starComment, CommentType.STAR));
+        }
+
+        if (!comments.isEmpty()) {
+            LOGGER.info("Saved {}", commentService.saveAll(comments));
+        }
+
+        return "redirect:/";
+    }
+
+
 
 }
