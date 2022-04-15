@@ -1,6 +1,8 @@
 package com.springboot.RetroBoard.controllerTest;
 
 import com.springboot.RetroBoard.controller.CommentController;
+import com.springboot.RetroBoard.model.Comment;
+import com.springboot.RetroBoard.model.CommentType;
 import com.springboot.RetroBoard.service.CommentService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,16 +13,20 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
 
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 @RunWith(SpringRunner.class)
 @WebMvcTest(CommentController.class)
-public class CommentControllerTeest {
+public class CommentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -52,13 +58,13 @@ public class CommentControllerTeest {
         Comment comment = new Comment();
         comment.setComment("Test Plus");
         comment.setType(CommentType.PLUS);
-        comment.setCreatedBy("Shazin");
+        comment.setCreatedBy("Tifuseini");
         comment.setCreatedDate(new Timestamp(System.currentTimeMillis()));
 
         Comment comment2 = new Comment();
         comment2.setComment("Test Star");
         comment2.setType(CommentType.STAR);
-        comment2.setCreatedBy("Shahim");
+        comment2.setCreatedBy("Tahiru");
         comment2.setCreatedDate(new Timestamp(System.currentTimeMillis()));
         List<Comment> comments = Arrays.asList(comment, comment2);
         when(commentService.getAllCommentsForToday()).thenReturn(comments);
@@ -73,14 +79,14 @@ public class CommentControllerTeest {
                 .andExpect(model().attribute("plusComments", hasSize(1)))
                 .andExpect(model().attribute("plusComments", hasItem(
                         allOf(
-                                hasProperty("createdBy", is("Shazin")),
+                                hasProperty("createdBy", is("Tifuseini")),
                                 hasProperty("comment", is("Test Plus"))
                         )
                 )))
                 .andExpect(model().attribute("starComments", hasSize(1)))
                 .andExpect(model().attribute("starComments", hasItem(
                         allOf(
-                                hasProperty("createdBy", is("Shahim")),
+                                hasProperty("createdBy", is("Tahiru")),
                                 hasProperty("comment", is("Test Star"))
                         )
                 )));
@@ -90,4 +96,3 @@ public class CommentControllerTeest {
     }
 }
 
-}
