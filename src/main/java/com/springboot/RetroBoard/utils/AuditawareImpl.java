@@ -12,6 +12,16 @@ import java.util.Optional;
 @Component
 public class AuditawareImpl implements AuditorAware {
 
+    @Override
+    public Optional<String> getCurrentAuditor() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(((User) authentication.getPrincipal()).getUsername());
+    }
 
 
 }
