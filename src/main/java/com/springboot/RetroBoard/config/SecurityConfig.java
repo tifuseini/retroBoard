@@ -1,2 +1,4 @@
-package com.springboot.RetroBoard.config;public class SecurityConfig {
+package com.springboot.RetroBoard.config;
+
+public class SecurityConfig {
 }
