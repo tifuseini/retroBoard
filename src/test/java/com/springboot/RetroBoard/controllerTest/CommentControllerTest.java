@@ -46,4 +46,48 @@ public class CommentControllerTeest {
     }
 
 
+    @Test
+    public void getComments_HappyPath_ShouldReturnStatus200() throws Exception {
+        // Given
+        Comment comment = new Comment();
+        comment.setComment("Test Plus");
+        comment.setType(CommentType.PLUS);
+        comment.setCreatedBy("Shazin");
+        comment.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+
+        Comment comment2 = new Comment();
+        comment2.setComment("Test Star");
+        comment2.setType(CommentType.STAR);
+        comment2.setCreatedBy("Shahim");
+        comment2.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+        List<Comment> comments = Arrays.asList(comment, comment2);
+        when(commentService.getAllCommentsForToday()).thenReturn(comments);
+
+        // When
+        ResultActions resultActions = mockMvc.perform(get("/").with(user("shazin").roles("USER")));
+
+        // Then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(view().name("comment"))
+                .andExpect(model().attribute("plusComments", hasSize(1)))
+                .andExpect(model().attribute("plusComments", hasItem(
+                        allOf(
+                                hasProperty("createdBy", is("Shazin")),
+                                hasProperty("comment", is("Test Plus"))
+                        )
+                )))
+                .andExpect(model().attribute("starComments", hasSize(1)))
+                .andExpect(model().attribute("starComments", hasItem(
+                        allOf(
+                                hasProperty("createdBy", is("Shahim")),
+                                hasProperty("comment", is("Test Star"))
+                        )
+                )));
+
+        verify(commentService, times(1)).getAllCommentsForToday();
+        verifyNoMoreInteractions(commentService);
+    }
+}
+
 }
