@@ -1,2 +1,4 @@
-package com.springboot.RetroBoard.controllerTest;public class CommentControllerTeest {
+package com.springboot.RetroBoard.controllerTest;
+
+public class CommentControllerTeest {
 }
