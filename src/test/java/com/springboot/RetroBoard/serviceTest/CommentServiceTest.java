@@ -15,6 +15,9 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+
 @RunWith(SpringRunner.class)
 public class CommentServiceTest {
 
@@ -38,5 +41,17 @@ public class CommentServiceTest {
         comment.setCreatedDate(new Timestamp(System.currentTimeMillis()));
         List<Comment> comments = Arrays.asList(comment);
         LocalDate now = LocalDate.now();
+
+        when(commentRepository.
+                findByCreatedYearAndMonthAndDay(now.getYear(),now.getMonth().getValue(),
+                        now.getDayOfMonth())).thenReturn(comments);
+
+        //When
+        List<Comment> actualComments = commentService.getAllCommentsForToday();
+
+        //Then
+        verify(commentRepository,times(1)).findByCreatedYearAndMonthAndDay(now.getYear(),
+                now.getMonth().getValue(),now.getDayOfMonth());
+        assertThat(comments).isEqualTo(actualComments);
     }
 }
