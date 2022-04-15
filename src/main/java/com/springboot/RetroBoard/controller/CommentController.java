@@ -66,6 +66,13 @@ public class CommentController {
         return "redirect:/";
     }
 
+    private Comment getComment(String comment, CommentType commentType) {
+        Comment commentObject = new Comment();
+        commentObject.setType(commentType);
+        commentObject.setComment(comment);
+
+        return commentObject;
+    }
 
 
 }
