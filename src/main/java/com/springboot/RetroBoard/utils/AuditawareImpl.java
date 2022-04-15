@@ -1,2 +1,4 @@
-package com.springboot.RetroBoard.utils;public class AuditawareImpl {
+package com.springboot.RetroBoard.utils;
+
+public class AuditawareImpl {
 }
