@@ -1,2 +1,4 @@
-package com.springboot.RetroBoard.controller;public class CommentController {
+package com.springboot.RetroBoard.controller;
+
+public class CommentController {
 }
