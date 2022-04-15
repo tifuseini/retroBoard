@@ -54,4 +54,27 @@ public class CommentServiceTest {
                 now.getMonth().getValue(),now.getDayOfMonth());
         assertThat(comments).isEqualTo(actualComments);
     }
+
+    @Test
+    public void saveAll_path_shouldSave1Comments(){
+
+        //Given
+        Comment comment = new Comment();
+        comment.setComment("test 1");
+        comment.setType(CommentType.DELTA);
+        comment.setCreatedBy("Fuseini");
+        comment.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+
+        List<Comment>comments = Arrays.asList(comment);
+        when(commentRepository.saveAll(comments)).thenReturn(comments);
+
+        //When
+        List<Comment> saved = commentService.saveAll(comments);
+
+        //Then
+        assertThat(saved).isNotEmpty();
+        verify(commentRepository,times(1)).saveAll(comments);
+    }
+
+
 }
